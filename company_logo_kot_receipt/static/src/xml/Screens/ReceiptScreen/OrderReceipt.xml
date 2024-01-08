@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-inherit="pos_restaurant.OrderChangeReceipt" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[1]" position="replace">
+            <div class="pos-receipt">
+                <div style="margin-top: 50px;">
+                    <t t-if="changes.company_logo">
+                        <img class="pos-receipt-logo" t-att-src="changes.company_logo" alt="Company Logo"/>
+                        <br/>
+                    </t>
+                    <t t-if="!changes.company_logo">
+                        <t t-if="changes.company">
+                            <h2 class="pos-receipt-center-align">
+                                <t t-esc="changes.company.name" />
+                            </h2>
+                            <br/>
+                        </t>
+                    </t>
+                </div>
+                <div class="pos-receipt-order-data"><t t-esc="changes.name" /></div>
+                <t t-if="changes.floor_name || changes.table_name">
+                    <br />
+                    <div class="pos-receipt-title">
+                        <t t-esc="changes.floor_name" /> / <t t-esc="changes.table_name"/><br/>
+                        Served by : <t t-esc="changes.waiter" /><br/>
+                    </div>
+                </t>
+                <br />
+                <br />
+                <t t-if="changes.cancelled.length > 0">
+                    <div class="pos-order-receipt-cancel">
+                        <div class="pos-receipt-title">
+                            Cancelled KOT - 
+                            <t t-esc='changes.time.date'/> <t t-esc='changes.time.hours'/>:<t t-esc='changes.time.minutes'/>
+                        </div>
+                        <br />
+                        <br />
+                        <t t-foreach="changes.cancelled" t-as="change">
+                            <div class="multiprint-flex">
+                                <span class="product-quantity" t-esc="change.quantity"/>
+                                <span class="product-name" t-esc="change.name"/>
+                            </div>
+                            <t t-if="change.note">
+                                <div>
+                                    NOTE
+                                    <span class="pos-receipt-right-align">...</span>
+                                </div>
+                                <div><span class="pos-receipt-left-padding">--- <t t-esc="change.note" /></span></div>
+                                <br/>
+                            </t>
+                        </t>
+                        <br />
+                        <br />
+                    </div>
+                </t>
+                <t t-if="changes.new.length > 0">
+                    <div class="pos-receipt-title">
+                        New KOT - 
+                        <t t-esc='changes.time.date'/> <t t-esc='changes.time.hours'/>:<t t-esc='changes.time.minutes'/>
+                    </div>
+                    <br />
+                    <br />
+                    <t t-foreach="changes.new" t-as="change">
+                        <div class="multiprint-flex">
+                            <span class="product-quantity" t-esc="change.quantity"/>
+                            <span class="product-name" t-esc="change.name"/>
+                        </div>
+                        <t t-if="change.note">
+                            <div>
+                                NOTE
+                                <span class="pos-receipt-right-align">...</span>
+                            </div>
+                            <div><span class="pos-receipt-left-padding">--- <t t-esc="change.note" /></span></div>
+                            <br/>
+                        </t>
+                    </t>
+                    <br />
+                    <br />
+                </t>
+            </div>
+        </xpath>
+    </t>
+
+</templates>
